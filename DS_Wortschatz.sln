@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DS_Wortschatz", "DS_Wortschatz\DS_Wortschatz.csproj", "{987950E0-FD1B-45D4-A18C-448FF2B19C0B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{987950E0-FD1B-45D4-A18C-448FF2B19C0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{987950E0-FD1B-45D4-A18C-448FF2B19C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{987950E0-FD1B-45D4-A18C-448FF2B19C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{987950E0-FD1B-45D4-A18C-448FF2B19C0B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A9A1201D-B720-46D6-9091-DBF5051AC934}
+	EndGlobalSection
+EndGlobal
