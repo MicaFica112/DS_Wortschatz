@@ -1,6 +1,6 @@
-﻿# Project Name
+﻿# DS_WorthSchatz
 
-DS_WorthSchatz_
+
 
 1. Deutsch
 
