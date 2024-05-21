@@ -1,0 +1,25 @@
+USE [DS_WortschatzSQL]
+GO
+
+/****** Object:  Table [dbo].[ArtikelS]    Script Date: 4/21/2024 2:44:41 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ArtikelS]') AND type in (N'U'))
+DROP TABLE [dbo].[ArtikelS]
+GO
+
+/****** Object:  Table [dbo].[ArtikelS]    Script Date: 4/21/2024 2:44:41 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ArtikelS](
+	[IdS] [int] NOT NULL,
+	[TajTaTo] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_ArtikleS] PRIMARY KEY CLUSTERED 
+(
+	[IdS] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+

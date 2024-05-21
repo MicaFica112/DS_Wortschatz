@@ -18,6 +18,26 @@
       {
          "Name": "[dbo].[Accounts]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AdminGame]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ArtikelD]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ArtikelS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Stats]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Worter]",
+         "ObjectType": 0
       }
    ],
    "UiHint": "trzaj\\dsw_sql.DS_WortschatzSQL.dbo",

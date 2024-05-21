@@ -1,0 +1,28 @@
+USE [DS_WortschatzSQL]
+GO
+
+/****** Object:  Table [dbo].[Stats]    Script Date: 4/21/2024 2:45:20 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Stats]') AND type in (N'U'))
+DROP TABLE [dbo].[Stats]
+GO
+
+/****** Object:  Table [dbo].[Stats]    Script Date: 4/21/2024 2:45:20 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Stats](
+	[UId] [int] NOT NULL,
+	[PlayTotal] [int] NOT NULL,
+	[PlayLast] [date] NOT NULL,
+	[CorrectWords] [int] NOT NULL,
+	[WrongWords] [int] NOT NULL,
+ CONSTRAINT [PK_Stats] PRIMARY KEY CLUSTERED 
+(
+	[UId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+

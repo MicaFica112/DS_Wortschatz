@@ -2,7 +2,10 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.IO;
+using DS_Wortschatz._Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DS_Wortschatz.Models;
 
@@ -19,9 +22,27 @@ public partial class DS_WortschatzDBContext : DbContext
 
     public virtual DbSet<Account> Accounts { get; set; }
 
+    public virtual DbSet<AdminGame> AdminGames { get; set; }
+
+    public virtual DbSet<Artikel> Artikels { get; set; }
+
+    public virtual DbSet<ArtikelD> ArtikelDs { get; set; }
+
+    public virtual DbSet<Stat> Stats { get; set; }
+
+    public virtual DbSet<Worter> Worters { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=trzaj\\dsw_sql;Initial Catalog=DS_WortschatzSQL;Integrated Security=True;Encrypt=False");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            var connectionString = AppConfig.Configuration.GetConnectionString("DS_WortschatzSQL");
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        //=> optionsBuilder.UseSqlServer("Data Source=trzaj\\dsw_sql;Initial Catalog=DS_WortschatzSQL;Integrated Security=True;Encrypt=False");
+
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,6 +57,73 @@ public partial class DS_WortschatzDBContext : DbContext
             entity.Property(e => e.Username)
                 .IsRequired()
                 .HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<AdminGame>(entity =>
+        {
+            entity.ToTable("AdminGame");
+
+            entity.Property(e => e.DartikelId).HasColumnName("DArtikelId");
+            entity.Property(e => e.SartikelId).HasColumnName("SArtikelId");
+        });
+
+        modelBuilder.Entity<Artikel>(entity =>
+        {
+            entity.HasKey(e => e.IdS).HasName("PK_ArtikleS");
+
+            entity.ToTable("ArtikelS");
+
+            entity.Property(e => e.IdS).ValueGeneratedNever();
+            entity.Property(e => e.TajTaTo)
+                .IsRequired()
+                .HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<ArtikelD>(entity =>
+        {
+            entity.ToTable("ArtikelD");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.DerDieDas)
+                .IsRequired()
+                .HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Stat>(entity =>
+        {
+            entity.HasKey(e => e.Uid);
+
+            entity.Property(e => e.Uid)
+                .ValueGeneratedNever()
+                .HasColumnName("UId");
+            entity.Property(e => e.PlayLast).HasColumnType("date");
+        });
+
+        modelBuilder.Entity<Worter>(entity =>
+        {
+            entity.HasKey(e => e.Idw);
+
+            entity.ToTable("Worter");
+
+            entity.Property(e => e.Idw).HasColumnName("IDW");
+            entity.Property(e => e.DartikelId).HasColumnName("DArtikelID");
+            entity.Property(e => e.Deutsch)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.SartikelId).HasColumnName("SArtikelID");
+            entity.Property(e => e.Serbisch)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            entity.HasOne(d => d.Dartikel).WithMany(p => p.Worters)
+                .HasForeignKey(d => d.DartikelId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Worter_ArtikelD");
+
+            entity.HasOne(d => d.Sartikel).WithMany(p => p.Worters)
+                .HasForeignKey(d => d.SartikelId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Worter_ArtikelS");
         });
 
         OnModelCreatingPartial(modelBuilder);

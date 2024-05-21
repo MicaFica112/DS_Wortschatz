@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DS_Wortschatz"
         xmlns:vm="clr-namespace:DS_Wortschatz.ViewModels"
         mc:Ignorable="d"
-        Title="DS Wortschatz" Height="500" Width="400">
+        Title="DS Wortschatz" Height="500" Width="400" Background="#FFE5E5E5">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -15,19 +15,32 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="25*"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Column="1">
-            <Menu DockPanel.Dock="Top">
+        <DockPanel Background="#FFE5E5E5">
+            <Menu DockPanel.Dock="Top" Background="#FFE5E5E5">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_Log Out" />
+                    <MenuItem Header="_Log Out" Command="{Binding LogOutCommand}" />
                     <Separator />
-                    <MenuItem Header="_Exit" />
+                    <MenuItem Header="_Exit" Command="{Binding CloseAppCommand}" />
                 </MenuItem>
-                <MenuItem Header="_About">
-                </MenuItem>
+                <Separator />
+                <Separator Width="120" Background="#FFE5E5E5"/>
+                <Label Content="Angemeldet als:"
+                       VerticalAlignment="Top" 
+                       Margin="5,0,10,0"
+                       Padding="0,0,0,0" 
+                       Height="20" 
+                       IsHitTestVisible="False" 
+                       IsEnabled="False" />
+                <Label Content="{Binding UserName}" 
+                       IsHitTestVisible="False" 
+                       FontWeight="Bold" 
+                       VerticalAlignment="Top" 
+                       Margin="5,0,10,0" 
+                       Padding="0,0,0,0" 
+                       Height="20" />
             </Menu>
-            <TextBox AcceptsReturn="True" />
         </DockPanel>
-        <TabControl Grid.Row="2">
+        <TabControl  Grid.Row="2" SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="Der Die Das">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -52,174 +65,216 @@
                              HorizontalAlignment="Center" 
                              Margin="10,0,0,0" 
                              TextWrapping="Wrap" 
-                             Text="Suchen" 
+                             Text="{Binding SerachWord}" 
                              FontSize="20"
                              TextAlignment="Center"   
                              VerticalAlignment="Center" 
-                             Width="250" Height="28"/>
-                    <Label Content="die"
-                            Grid.Column="1"
-                            Grid.Row="2"
+                             Width="250" 
+                             Height="28"/>
+                    <Label Content="{Binding ShowDartikl}"
+                           Grid.Row="2"
                            HorizontalContentAlignment="Left"
                            VerticalContentAlignment="Top"
                            FontSize="60"
-                           FontWeight="Bold"/>
-                    <Label Content="Shule"
-                           Grid.Column="1"
-                           Grid.ColumnSpan="2"
-                           Grid.Row="3"
+                           FontWeight="Bold" 
+                           HorizontalAlignment="Center" 
+                           Width="113" Grid.Column="1" Height="81" VerticalAlignment="Center"/>
+                    <Label Content="{Binding ShowDword}"
+                           Grid.ColumnSpan="3"
+                           Grid.Row="2"
                            HorizontalContentAlignment="Center"
                            VerticalContentAlignment="Top"
-                           HorizontalAlignment="Center"
+                           HorizontalAlignment="Left"
                            FontSize="60"  
-                           FontWeight="Bold"/>
-                    <Label Content="ta"
+                           FontWeight="Bold" Margin="28,0,0,1" Grid.RowSpan="2" Width="211" Height="82" VerticalAlignment="Bottom"/>
+                    <Label Content="{Binding ShowSartikl}"
                            Grid.Column="2"
                            Grid.Row="5"
                            HorizontalContentAlignment="Left"
                            VerticalContentAlignment="Top"
                            FontSize="60"
-                           FontWeight="Bold" />
-                    <Label Content="Skola"
+                           FontWeight="Bold" HorizontalAlignment="Center" Width="112" Height="82" VerticalAlignment="Center" />
+                    <Label Content="{Binding ShowSword}"
                            Grid.Column="2"
-                           Grid.ColumnSpan="2"
+                           Grid.ColumnSpan="3"
                            Grid.Row="6"
                            HorizontalContentAlignment="Center"
                            VerticalContentAlignment="Top"
                            FontSize="60"
-                           FontWeight="Bold"/>
-                    <Button Grid.Column="3"
+                           FontWeight="Bold" HorizontalAlignment="Left" Width="225" Height="82" VerticalAlignment="Center" />
+                    <Button
+                            Command="{Binding SearchForWordCommand}"
+                            Grid.Column="3"
                             Content="Suchen" 
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Height="28" Width="92" 
                             Grid.ColumnSpan="2" 
                             Margin="21,0,0,0" FontWeight="Bold" />
+                    <Label Content="-----------------------------------------------------------------------------"
+                           Visibility="{Binding DividingLine}"
+                           Margin="10,0,10,0" Grid.Row="4" 
+                           VerticalAlignment="Center" 
+                           Height="32" 
+                           Grid.ColumnSpan="5" 
+                           FontWeight="Bold" 
+                           FontSize="18"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Wortschatz">
+            <TabItem Header="Spiel">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="28*"/>
+                        <ColumnDefinition Width="113*"/>
+                        <ColumnDefinition Width="113*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="28*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
-                        <RowDefinition Height="0.5*"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="3*"/>
-                        <RowDefinition Height="0.5*"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <TextBox 
-                             Grid.ColumnSpan="3" 
-                             HorizontalAlignment="Center" 
-                             Margin="10,0,0,0" 
-                             TextWrapping="Wrap" 
-                             Text="Suchen" 
-                             FontSize="20"
-                             TextAlignment="Center"   
-                             VerticalAlignment="Center" 
-                             Width="250" Height="28"/>
-                    <Button Grid.Column="3"
-                            Content="Suchen" 
-                            HorizontalAlignment="Right"
+                    <Button Grid.Column="1"
+                            Content="der"
+                            Command="{Binding CheckArticleCommand}"
+                            Visibility="{Binding ScoreButtonsVisibility}"
+                            CommandParameter="1"
+                            HorizontalAlignment="Left"
+                            Margin="10,42,0,0" 
+                            Grid.Row="4"
+                            VerticalAlignment="Top"
+                            Width="86" 
+                            FontWeight="Bold"
+                            FontSize="22"/>
+                    <Button Grid.Column="2"
+                            Content="die" 
+                            Command="{Binding CheckArticleCommand}"
+                            Visibility="{Binding ScoreButtonsVisibility}"
+                            CommandParameter="2"
+                            HorizontalAlignment="Left"
+                            Margin="10,42,0,0" Grid.Row="4"
+                            VerticalAlignment="Top" 
+                            Width="86" 
+                            FontWeight="Bold" 
+                            FontSize="22"/>
+                    <Button Grid.Column="3" 
+                            Content="das"
+                            Command="{Binding CheckArticleCommand}"
+                            Visibility="{Binding ScoreButtonsVisibility}"
+                            CommandParameter="3"
+                            HorizontalAlignment="Left" 
+                            Margin="10,42,0,0" 
+                            Grid.Row="4" 
+                            VerticalAlignment="Top"
+                            Width="86" 
+                            FontWeight="Bold"
+                            FontSize="22"/>
+                    <TextBlock Grid.Column="1" 
+                               Grid.Row="2"
+                               Grid.ColumnSpan="3"
+                               TextWrapping="NoWrap" 
+                               Text="{Binding CurrentWord.Deutsch}" 
+                               Background="{Binding FeedbackColor}"
+                               VerticalAlignment="Center"
+                               Width="338" 
+                               Height="64" 
+                               FontSize="50" 
+                               FontWeight="Bold" 
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"/>
+                    <ComboBox ItemsSource="{Binding Options}" 
+                              SelectedIndex="{Binding SelectedGameMode}"
+                              Visibility="{Binding ExtraButtonsVisibility}"
+                              Margin="52,19,58,0" 
+                              VerticalAlignment="Top" 
+                              Grid.ColumnSpan="3"
+                              Grid.Column="1" 
+                              Grid.Row="2" 
+                              Height="25"/>
+                    <Button Command="{Binding IncreseNummberOfWordCommand}"
+                            Visibility="{Binding ExtraButtonsVisibility}"
+                            Grid.Column="1" 
+                            Content="+"
+                            VerticalAlignment="Top"
+                            Grid.Row="2" 
+                            FontSize="20" 
+                            FontWeight="Bold" Height="41" Margin="52,76,6,0" Grid.RowSpan="2"/>
+                    <Button Command="{Binding DecreseNummberOfWordCommand}"
+                            Visibility="{Binding ExtraButtonsVisibility}"
+                            Grid.Column="3"
+                            Content="-" 
+                            VerticalAlignment="Top" 
+                            FontSize="22"
+                            FontWeight="Bold" 
+                            Margin="7,76,58,0" 
+                            Width="52" Height="41"
+                            Grid.Row="2" 
+                            Grid.RowSpan="2"/>
+                    <TextBlock Grid.Column="2" 
+                               HorizontalAlignment="Center" 
+                               TextWrapping="NoWrap"
+                               Text="{Binding NumberOfWords}" 
+                               Visibility="{Binding ExtraButtonsVisibility}"
+                               VerticalAlignment="Top"
+                               Height="41" 
+                               FontSize="36" 
+                               FontWeight="Bold" 
+                               Grid.Row="2" 
+                               Width="45" 
+                               TextAlignment="Center" Margin="0,73,0,0" Grid.RowSpan="2"/>
+                    <Button Grid.Column="3" 
+                            Content="{Binding StartStopButtonLabel}" 
+                            Command="{Binding ToggleGameCommand}" 
+                            HorizontalAlignment="Center" 
                             VerticalAlignment="Center"
-                            Height="28" Width="92" Grid.ColumnSpan="2" 
-                            Margin="0,0,14,0" FontWeight="Bold"/>
-                    <Label Content="die"
-                            Grid.Column="1"
-                            Grid.Row="2"
-                            HorizontalContentAlignment="Left"
-                            VerticalContentAlignment="Top"
-                            FontSize="60"
-                            FontWeight="Bold"/>
-                    <Label Content="Shule"
-                           Grid.Column="1"
-                           Grid.ColumnSpan="2"
-                           Grid.Row="3"
-                           HorizontalContentAlignment="Center"
-                           VerticalContentAlignment="Top"
-                           HorizontalAlignment="Center"
-                           FontSize="60"  
-                           FontWeight="Bold"/>
-                    <Label Content="ta"
-                           Grid.Column="2"
-                           Grid.Row="5"
-                           HorizontalContentAlignment="Left"
-                           VerticalContentAlignment="Top"
-                           FontSize="60"
-                           FontWeight="Bold" />
-                    <Label Content="Skola"
-                           Grid.Column="2"
-                           Grid.ColumnSpan="2"
-                           Grid.Row="6"
-                           HorizontalContentAlignment="Center"
-                           VerticalContentAlignment="Top"
-                           FontSize="60"
-                           FontWeight="Bold"/>
+                            Height="36"
+                            Width="117"/>
+                    <TextBlock Visibility="{Binding ScoreButtonsVisibility}" 
+                               Foreground="Green" 
+                               Grid.Column="1" 
+                               HorizontalAlignment="Left" 
+                               Margin="10,7,0,0" 
+                               TextWrapping="Wrap" 
+                               Text="Correct" 
+                               VerticalAlignment="Top" 
+                               FontWeight="Bold" 
+                               FontSize="16"/>
+                    <TextBlock Visibility="{Binding ScoreButtonsVisibility}" 
+                               Foreground="Red" 
+                               Grid.Column="2" 
+                               HorizontalAlignment="Left" 
+                               Margin="10,7,0,0" 
+                               TextWrapping="Wrap" 
+                               Text="Incorrect" 
+                               VerticalAlignment="Top" 
+                               FontWeight="Bold" 
+                               FontSize="16"/>
+                    <TextBlock Text="{Binding CorrectCount}" 
+                               Visibility="{Binding ScoreButtonsVisibility}"
+                               Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               Margin="37,33,0,0"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top" 
+                               FontSize="14" 
+                               FontWeight="Bold"/>
+                    <TextBlock Text="{Binding IncorrectCount}" 
+                               Visibility="{Binding ScoreButtonsVisibility}" 
+                               Grid.Column="2" 
+                               HorizontalAlignment="Left" 
+                               Margin="44,33,0,0" 
+                               TextWrapping="Wrap" 
+                               VerticalAlignment="Top" 
+                               FontSize="14"
+                               FontWeight="Bold"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Spiel 1">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    <Button Grid.Column="1" Content="der" HorizontalAlignment="Left" Margin="10,42,0,0" Grid.Row="4" VerticalAlignment="Top" Width="86" FontWeight="Bold" FontSize="22"/>
-                    <Button Grid.Column="2" Content="die" HorizontalAlignment="Left" Margin="10,42,0,0" Grid.Row="4" VerticalAlignment="Top" Width="86" FontWeight="Bold" FontSize="22"/>
-                    <Button Grid.Column="3" Content="das" HorizontalAlignment="Left" Margin="10,42,0,0" Grid.Row="4" VerticalAlignment="Top" Width="86" FontWeight="Bold" FontSize="22"/>
-                    <TextBlock Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" TextWrapping="NoWrap" Text="Schule" VerticalAlignment="Center" Width="338" Height="64" FontSize="50" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Spiel 2">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    <Button Grid.Column="1" Grid.Row="1" Content="die Wohnung" HorizontalAlignment="Center" VerticalAlignment="Center" Width="123" Height="37" FontWeight="Bold"/>
-                    <Button Grid.Column="1" Grid.Row="2" Content="die Schule" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="123" Height="37" FontWeight="Bold"/>
-                    <Button Grid.Column="1" Grid.Row="3" Content="die Straße" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="123" Height="37" FontWeight="Bold"/>
-                    <Button Grid.Column="1" Grid.Row="4" Content="der Staat" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="123" Height="37" FontWeight="Bold"/>
-                    <Button Grid.Column="1" Grid.Row="5" Content="der Bezirk" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="123" Height="37" FontWeight="Bold"/>
-                    <Button Grid.Column="3" Grid.Row="1" Content="Stan" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="123" Height="37" FontWeight="Bold"/>
-                    <Button Grid.Column="3" Grid.Row="2" Content="Skola" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="123" Height="37" FontWeight="Bold"/>
-                    <Button Grid.Column="3" Grid.Row="3" Content="Ulica" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="123" Height="37" FontWeight="Bold"/>
-                    <Button Grid.Column="3" Grid.Row="4" Content="Grad" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="123" Height="37" FontWeight="Bold"/>
-                    <Button Grid.Column="3" Grid.Row="5" Content="Opstina" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="123" Height="37" FontWeight="Bold"/>
-
-                </Grid>
-            </TabItem>
-            <TabItem Header="Statistiken">
+            <TabItem
+                     Header="Statistiken">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="22*"/>
@@ -244,26 +299,94 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="0,23,0,0" TextWrapping="NoWrap" Text="Spiel 1" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" TextDecorations="Underline" Height="29" Width="69"/>
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" TextWrapping="NoWrap" Text="Spiel gespielt: " VerticalAlignment="Center" Height="16" Width="76" />
-                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="0,3,0,0" Grid.Row="2" TextWrapping="NoWrap" Text="10 " VerticalAlignment="Top" Height="16" Width="76" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" TextWrapping="NoWrap" Text="Letzte Mal gespielt: " VerticalAlignment="Center" Height="16" Width="106" />
-                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="0,3,0,0" Grid.Row="3" TextWrapping="NoWrap" Text="12.02.2024 " VerticalAlignment="Top" Height="16" Width="76" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="4" TextWrapping="NoWrap" Text="Anzahl der betroffenen Wörter: " VerticalAlignment="Center" Height="16" Width="168" />
-                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="0,3,0,0" Grid.Row="4" TextWrapping="NoWrap" Text="25 " VerticalAlignment="Top" Height="16" Width="76" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="5" TextWrapping="NoWrap" Text="Anzahl der falsch getroffenen Wörter: " VerticalAlignment="Center" Height="16" Width="201" />
-                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="0,3,0,0" Grid.Row="5" TextWrapping="NoWrap" Text="8 " VerticalAlignment="Top" Height="16" Width="76" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" Margin="0,23,0,0" TextWrapping="NoWrap" Text="Spiel 2" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" TextDecorations="Underline" Grid.RowSpan="2" Height="29" Width="69" />
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="9" TextWrapping="NoWrap" Text="Spiel gespielt: " VerticalAlignment="Center" Height="16" Width="76" />
-                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="0,3,0,0" Grid.Row="9" TextWrapping="NoWrap" Text="12 " VerticalAlignment="Top" Height="16" Width="76" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="10" TextWrapping="NoWrap" Text="Letzte Mal gespielt: " VerticalAlignment="Center" Height="16" Width="106" />
-                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="0,3,0,0" Grid.Row="10" TextWrapping="NoWrap" Text="05.02.2024 " VerticalAlignment="Top" Height="16" Width="76" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="11" TextWrapping="NoWrap" Text="Anzahl der betroffenen Wörter: " VerticalAlignment="Center" Height="16" Width="168" />
-                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="0,3,0,0" Grid.Row="11" TextWrapping="NoWrap" Text="30 " VerticalAlignment="Top" Height="16" Width="76" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="12" TextWrapping="NoWrap" Text="Anzahl der falsch getroffenen Wörter: " VerticalAlignment="Center" Height="16" Width="201" />
-                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="0,3,0,0" Grid.Row="12" TextWrapping="NoWrap" Text="10" VerticalAlignment="Top" Height="16" Width="76" FontSize="14" FontWeight="Bold" />
+                    <TextBlock Grid.Column="1" 
+                               HorizontalAlignment="Left"
+                               Margin="10,25,0,0" 
+                               TextWrapping="NoWrap" 
+                               Text="Spiel"
+                               VerticalAlignment="Top"
+                               FontSize="22" FontWeight="Bold" 
+                               TextDecorations="Underline" 
+                               Height="29" 
+                               Width="69"/>
+                    <TextBlock Grid.Column="1" 
+                               HorizontalAlignment="Left"
+                               Margin="10,0,0,0"
+                               Grid.Row="2"
+                               TextWrapping="NoWrap"
+                               Text="Spiel gespielt: "
+                               VerticalAlignment="Center"
+                               Height="16" 
+                               Width="76" />
+                    <TextBlock Grid.Column="2" 
+                               HorizontalAlignment="Center" 
+                               Margin="0,3,0,0"
+                               Grid.Row="2" 
+                               TextWrapping="NoWrap" 
+                               Text="{Binding PlayedTotal}" 
+                               VerticalAlignment="Top" 
+                               Height="16" Width="76" 
+                               FontSize="14" 
+                               FontWeight="Bold" />
+                    <TextBlock Grid.Column="1" 
+                               HorizontalAlignment="Left" 
+                               Margin="10,0,0,0" 
+                               Grid.Row="3" 
+                               TextWrapping="NoWrap" 
+                               Text="Letzte Mal gespielt: " 
+                               VerticalAlignment="Center" 
+                               Height="16" Width="106" />
+                    <TextBlock Grid.Column="2" 
+                               HorizontalAlignment="Center"
+                               Margin="0,3,0,0" 
+                               Grid.Row="3"
+                               TextWrapping="NoWrap" 
+                               Text="{Binding LastPlayed}" 
+                               VerticalAlignment="Top" 
+                               Height="16" 
+                               Width="71" 
+                               FontSize="14" 
+                               FontWeight="Bold" />
+                    <TextBlock Grid.Column="1" 
+                               HorizontalAlignment="Left" 
+                               Margin="10,0,0,0" Grid.Row="4" 
+                               TextWrapping="NoWrap" 
+                               Text="Anzahl der betroffenen Wörter: " 
+                               VerticalAlignment="Center" 
+                               Height="16" 
+                               Width="168" />
+                    <TextBlock Grid.Column="2" 
+                               HorizontalAlignment="Center"
+                               Margin="0,3,0,0" 
+                               Grid.Row="4" 
+                               TextWrapping="NoWrap" 
+                               Text="{Binding NumberOfCorrectWord}"
+                               VerticalAlignment="Top"
+                               Height="16" 
+                               Width="76" 
+                               FontSize="14" 
+                               FontWeight="Bold" />
+                    <TextBlock Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               Margin="10,0,0,0"
+                               Grid.Row="5" 
+                               TextWrapping="NoWrap"
+                               Text="Anzahl der falsch getroffenen Wörter: " 
+                               VerticalAlignment="Center"
+                               Height="16"
+                               Width="201" />
+                    <TextBlock Grid.Column="2"
+                               HorizontalAlignment="Center" 
+                               Margin="0,3,0,0"
+                               Grid.Row="5" 
+                               TextWrapping="NoWrap" 
+                               Text="{Binding NumberOfWrongWords}" 
+                               VerticalAlignment="Top" 
+                               Height="16" 
+                               Width="76" 
+                               FontSize="14" 
+                               FontWeight="Bold" />
                 </Grid>
-
             </TabItem>
             <TabItem Header="Einstellungen">
                 <Grid Background="#FFE5E5E5">
@@ -283,18 +406,108 @@
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <Button Grid.Column="1" Grid.Row="5" Content="Bearbeiten" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="93" Height="28" FontWeight="Bold"/>
-                    <Button Grid.Column="3" Grid.Row="5" Content="Löschen" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="93" Height="28" FontWeight="Bold"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="3,36,0,0"  TextWrapping="NoWrap" Text="Username:" VerticalAlignment="Top" RenderTransformOrigin="-0.169,-0.622" FontWeight="Bold" FontSize="20"/>
-                    <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="3,36,0,0"  TextWrapping="NoWrap" Text="Password:" VerticalAlignment="Top" RenderTransformOrigin="-0.169,-0.622" FontWeight="Bold" FontSize="20"/>
-                    <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Margin="3,36,0,0"  TextWrapping="NoWrap" Text="Email:" VerticalAlignment="Top" RenderTransformOrigin="-0.169,-0.622" FontWeight="Bold" FontSize="20"/>
-                    <TextBox Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Left" Margin="23,44,0,0"  TextWrapping="NoWrap" Text="username123" VerticalAlignment="Top" Width="192"/>
-                    <TextBox Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Left" Margin="23,44,0,0"  TextWrapping="NoWrap" Text="1324564548" VerticalAlignment="Top" Width="192"/>
-                    <TextBox Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Left" Margin="23,44,0,0"  TextWrapping="NoWrap" Text="dsworthschatz@gmail.com" VerticalAlignment="Top" Width="192"/>
-
+                    <Button Grid.Column="1" 
+                            Grid.Row="5" 
+                            Content="Bearbeiten" 
+                            Command="{Binding ChkNewUserDataCommand}"
+                            HorizontalAlignment="Center"  
+                            VerticalAlignment="Center" 
+                            Width="93" 
+                            Height="28" 
+                            FontWeight="Bold"/>
+                    <Button Grid.Column="3" 
+                            Grid.Row="5" 
+                            Content="Löschen" 
+                            Command="{Binding DeleteUserCommand}"
+                            HorizontalAlignment="Center"  
+                            VerticalAlignment="Center" 
+                            Width="93" 
+                            Height="28" 
+                            FontWeight="Bold"/>
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Left" 
+                               Margin="15,40,0,0"  
+                               TextWrapping="NoWrap" 
+                               Text="Username:" 
+                               VerticalAlignment="Top" 
+                               RenderTransformOrigin="-0.169,-0.622"
+                               FontWeight="Bold"
+                               FontSize="20" 
+                               Grid.ColumnSpan="2"/>
+                    <TextBlock Grid.Row="2" 
+                               HorizontalAlignment="Left" 
+                               Margin="15,11,0,0"  
+                               TextWrapping="NoWrap" 
+                               Text="Old Password:" 
+                               VerticalAlignment="Top" 
+                               RenderTransformOrigin="-0.169,-0.622" 
+                               FontWeight="Bold" 
+                               FontSize="20" 
+                               Grid.ColumnSpan="3"/>
+                    <TextBlock
+                               Grid.Row="3" 
+                               HorizontalAlignment="Left" 
+                               Margin="15,35,0,0"  
+                               TextWrapping="NoWrap" 
+                               Text="Email:" 
+                               VerticalAlignment="Top" 
+                               RenderTransformOrigin="-0.169,-0.622"
+                               FontWeight="Bold" 
+                               FontSize="20" Grid.ColumnSpan="2"/>
+                    <TextBlock Grid.Row="2" 
+                               HorizontalAlignment="Left" 
+                               Margin="14,52,0,0"  
+                               TextWrapping="NoWrap" 
+                               Text="New Password:" 
+                               VerticalAlignment="Top"
+                               RenderTransformOrigin="-0.169,-0.622"
+                               FontWeight="Bold" 
+                               FontSize="20" 
+                               Grid.ColumnSpan="3" 
+                               Grid.RowSpan="2"/>
+                    <TextBox Grid.Column="2" 
+                             Text="{Binding UserName}"
+                             IsReadOnly="True"
+                             Background="#FFE5E5E5"
+                             Grid.ColumnSpan="2" 
+                             Grid.Row="1"
+                             HorizontalAlignment="Left" 
+                             Margin="23,44,0,0"  
+                             TextWrapping="NoWrap"  
+                             VerticalAlignment="Top" 
+                             Width="192"/>
+                    <TextBox Text="{Binding OldPassword}" 
+                             Grid.Column="2" 
+                             Grid.ColumnSpan="2" 
+                             Grid.Row="2"
+                             HorizontalAlignment="Left" 
+                             Margin="23,19,0,0"  
+                             TextWrapping="NoWrap"    
+                             VerticalAlignment="Top" 
+                             Width="192"/>
+                    <TextBox Grid.Column="2" 
+                             Grid.ColumnSpan="2"
+                             Grid.Row="3" 
+                             HorizontalAlignment="Left" 
+                             Margin="23,44,0,0"  
+                             TextWrapping="NoWrap" 
+                             Text="{Binding Email}"
+                             VerticalAlignment="Top" 
+                             Width="192"/>
+                    <TextBox Grid.Column="2" 
+                             Grid.ColumnSpan="2" 
+                             Grid.Row="2" 
+                             HorizontalAlignment="Left" 
+                             Margin="23,56,0,0"  
+                             TextWrapping="NoWrap" 
+                             Text="{Binding NewPassword}" 
+                             VerticalAlignment="Top" 
+                             Width="192" 
+                             Grid.RowSpan="2"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="Admin" Header="Administrationsmenü">
+            <TabItem Header="Administrationsmenü" 
+                     Visibility="{Binding AdminTabVis}">
                 <Grid Background="#FFE5E5E5">
                     <TabControl>
                         <TabItem Header="Wörter">
@@ -315,52 +528,324 @@
                                     <RowDefinition Height="69*"/>
                                     <RowDefinition Height="23*"/>
                                 </Grid.RowDefinitions>
-                                <TextBox 
-                                    Grid.ColumnSpan="2" 
-                                    HorizontalAlignment="Center" 
-                                    TextWrapping="Wrap" 
-                                    Text="Suchen" 
-                                    FontSize="20"
-                                    TextAlignment="Center"   
-                                    VerticalAlignment="Center" 
-                                    Width="221" Height="28" Grid.Column="1" Grid.Row="1"/>
-                                <Button Grid.Column="3"
-                                    Content="Suchen" 
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Height="28" Width="92" Grid.Row="1" />
-                                <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" TextAlignment="Center"  HorizontalAlignment="Center" Margin="0,10,0,0"  TextWrapping="NoWrap" Text="Haus" VerticalAlignment="Top" Width="264" FontWeight="Bold" FontSize="18" Height="26"/>
+                                <TextBox x:Name="TextBoxSearchAdmin"
+                                         Grid.ColumnSpan="2" 
+                                         HorizontalAlignment="Center" 
+                                         TextWrapping="Wrap" 
+                                         Text="{Binding SerachWord}" 
+                                         FontSize="20"
+                                         TextAlignment="Center"   
+                                         VerticalAlignment="Top" 
+                                         Width="221" 
+                                         Height="28" 
+                                         Grid.Column="1" 
+                                         Margin="0,31,0,0" 
+                                         Grid.RowSpan="2"/>
+                                <Button x:Name="textBoxBLD" 
+                                        Grid.Column="3"
+                                        Command="{Binding SearchForWordCommand}"
+                                        Content="Suchen" 
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Height="28"
+                                        Width="92" Margin="0,31,0,0" 
+                                        Grid.RowSpan="2" />
+                                <TextBox x:Name="dWordBoxBL"
+                                         Grid.Column="2" 
+                                         Grid.Row="2"
+                                         Grid.ColumnSpan="2" 
+                                         TextAlignment="Center" 
+                                         HorizontalAlignment="Center"  
+                                         TextWrapping="NoWrap" 
+                                         Text="{Binding ShowDword}" 
+                                         VerticalAlignment="Top" 
+                                         Width="221" 
+                                         FontWeight="Bold" 
+                                         FontSize="18" 
+                                         Height="26"/>
                                 <Button Grid.Column="1"
-                                    Content="Bearbeiten" 
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Height="28" Width="92" 
-                                    Margin="19,49,0,0" Grid.Row="2" 
-                                    Grid.ColumnSpan="2" 
-                                    Grid.RowSpan="2"/>
+                                        Command="{Binding EditWordCommand}"
+                                        Content="Bearbeiten" 
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Height="28" Width="92" 
+                                        Margin="0,23,0,0" 
+                                        Grid.Row="3"/>
+                                <Button Grid.Column="3"
+                                        Command="{Binding DeleteWordCommand}"
+                                        Content="Löschen" 
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Height="28" 
+                                        Width="92" 
+                                        Margin="0,23,0,0"
+                                        Grid.Row="3"/>
+                                <TextBlock Grid.Column="1" 
+                                           HorizontalAlignment="Right" 
+                                           TextAlignment="Center" 
+                                           TextWrapping="Wrap" 
+                                           Text="Bearbeiten - Löschen Wörter" 
+                                           VerticalAlignment="Top" 
+                                           Width="284" 
+                                           Height="36" 
+                                           FontSize="20" 
+                                           FontWeight="Bold" 
+                                           TextDecorations="Underline" 
+                                           Grid.ColumnSpan="3" 
+                                           Margin="0,0,24,0"/>
+                                <TextBlock Grid.Column="1" 
+                                           HorizontalAlignment="Right"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           Text="Ein neues Wort eingeben" 
+                                           VerticalAlignment="Center" 
+                                           Width="240" 
+                                           Height="36" 
+                                           FontSize="20" 
+                                           FontWeight="Bold" 
+                                           TextDecorations="Underline" 
+                                           Grid.Row="3" 
+                                           Grid.RowSpan="2" 
+                                           Grid.ColumnSpan="3" 
+                                           Margin="0,0,46,0"/>
                                 <Button Grid.Column="2"
-                                    Content="Löschen" 
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Height="28" Width="92" 
-                                    Margin="110,49,0,0" Grid.Row="2" 
+                                        Content="Hinzufügen" 
+                                        Command="{Binding AddNewWordCommand}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Height="28" Width="92" 
+                                        Margin="0,52,0,0" 
+                                        Grid.Row="5" 
+                                        Grid.RowSpan="2"/>
+                                <TextBox x:Name="sWordBoxBL"
+                                         Grid.Column="2" 
+                                         Grid.Row="2"
+                                         Grid.ColumnSpan="2" 
+                                         TextAlignment="Center" 
+                                         HorizontalAlignment="Center"  
+                                         TextWrapping="NoWrap" 
+                                         Text="{Binding ShowSword}" 
+                                         VerticalAlignment="Center" 
+                                         Width="221" 
+                                         FontWeight="Bold" 
+                                         FontSize="18" 
+                                         Height="26"
+                                         Grid.RowSpan="2"/>
+                                <TextBox x:Name="derDieDasBox" 
+                                         Text="{Binding DerDieDas, Mode=OneWay}"
+                                         Background="#FFE5E5E5"
+                                         Grid.Column="1" 
+                                         Grid.Row="2" 
+                                         TextAlignment="Center" 
+                                         HorizontalAlignment="Center"  
+                                         TextWrapping="NoWrap"       
+                                         IsReadOnly="True"
+                                         VerticalAlignment="Top" 
+                                         Width="78" 
+                                         FontWeight="Bold" 
+                                         FontSize="18" 
+                                         Height="26"/>
+                                <TextBox x:Name="tajTaToBox"
+                                         Text="{Binding TajTaTo}"
+                                         Background="#FFE5E5E5"
+                                         Grid.Column="1" 
+                                         Grid.Row="2" 
+                                         TextAlignment="Center" 
+                                         HorizontalAlignment="Center"  
+                                         TextWrapping="NoWrap" 
+                                         
+                                         IsReadOnly="True"
+                                         VerticalAlignment="Center" 
+                                         Width="78" 
+                                         FontWeight="Bold" 
+                                         FontSize="18" 
+                                         Height="26" 
+                                         Grid.RowSpan="2"/>
+                                <TextBox Grid.Column="2" 
+                                         Grid.Row="4"
+                                         Grid.ColumnSpan="2" 
+                                         TextAlignment="Center" 
+                                         HorizontalAlignment="Center"  
+                                         TextWrapping="NoWrap" 
+                                         Text="{Binding NewDWord}" 
+                                         VerticalAlignment="Top" 
+                                         Width="221" 
+                                         FontWeight="Bold" 
+                                         FontSize="18" 
+                                         Height="26" 
+                                         Margin="0,35,0,0"/>
+                                <TextBox Grid.Column="2" 
+                                         Grid.Row="5"
+                                         Grid.ColumnSpan="2" 
+                                         TextAlignment="Center" 
+                                         HorizontalAlignment="Center"  
+                                         TextWrapping="NoWrap" 
+                                         Text="{Binding NewSWord}" 
+                                         VerticalAlignment="Center" 
+                                         Width="221" 
+                                         FontWeight="Bold" 
+                                         FontSize="18" 
+                                         Height="26"/>
+                                <TextBox x:Name="derDieDasBoxNew"
+                                         Text="{Binding DerDieDasNew, Mode=OneWay}"
+                                         Background="#FFE5E5E5"
+                                         IsReadOnly="True"
+                                         Grid.Column="1" 
+                                         Grid.Row="4" 
+                                         TextAlignment="Center" 
+                                         HorizontalAlignment="Center"  
+                                         TextWrapping="NoWrap" 
+                                         VerticalAlignment="Top" 
+                                         Width="78" 
+                                         FontWeight="Bold" 
+                                         FontSize="18" 
+                                         Height="26" 
+                                         Margin="0,35,0,0"/>
+                                <TextBox x:Name="tajTaToBoxNew" 
+                                         Text="{Binding TajTaToNew}"
+                                         Background="#FFE5E5E5"
+                                         IsReadOnly="True"
+                                         Grid.Column="1" 
+                                         Grid.Row="5" 
+                                         TextAlignment="Center" 
+                                         HorizontalAlignment="Center"  
+                                         TextWrapping="NoWrap"
+                                         VerticalAlignment="Center" 
+                                         Width="78" 
+                                         FontWeight="Bold" 
+                                         FontSize="18" 
+                                         Height="26"/>
+                                <Button x:Name="buttonDer"
+                                        Content="Der"
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Height="18" Width="54" 
+                                        Grid.Row="1" 
                                     Grid.ColumnSpan="2" 
-                                    Grid.RowSpan="2"/>
-                                <TextBlock Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="Bearbeiten - Löschen Wörter" VerticalAlignment="Center" Width="284" Height="36" FontSize="20" FontWeight="Bold" TextDecorations="Underline"/>
-                                <TextBlock Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,33,0,0" TextWrapping="Wrap" Text="Ein neues Wort eingeben" VerticalAlignment="Top" Width="240" Height="36" FontSize="20" FontWeight="Bold" TextDecorations="Underline" Grid.Row="3"/>
-                                <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" TextAlignment="Center"  HorizontalAlignment="Center"  TextWrapping="NoWrap" Text="Haus" VerticalAlignment="Center" Width="264" FontWeight="Bold" FontSize="18" Height="26"/>
-                                <TextBox Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" TextAlignment="Center"  HorizontalAlignment="Center"  TextWrapping="NoWrap" Text="Kuca" VerticalAlignment="Top" Width="264" FontWeight="Bold" FontSize="18" Height="26" Margin="0,8,0,0"/>
-
-                                <Button Grid.Column="2"
-                                    Content="Hinzufügen" 
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Height="28" Width="92" 
-                                    Margin="0,41,0,0" Grid.Row="5" 
-                                    Grid.RowSpan="2"/>
+                                    Margin="57,0,0,0" />
+                                <Button x:Name="buttonDie" 
+                                        Content="Die"
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="2" 
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Height="18" Width="54" 
+                                        Grid.Row="1"/>
+                                <Button x:Name="buttonDas" 
+                                        Content="Das" 
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="2" 
+                                        HorizontalAlignment="Left" 
+                                        VerticalAlignment="Center"
+                                        Height="18" Width="54" 
+                                        Grid.Row="1" 
+                                        Margin="110,0,0,0" 
+                                        Grid.ColumnSpan="2"/>
+                                <Button x:Name="buttonTaj"
+                                        Content="Taj"
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="1"  
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        Height="18" Width="54" 
+                                        Grid.Row="2" 
+                                        Grid.ColumnSpan="2" 
+                                        Margin="58,31,0,0"/>
+                                <Button x:Name="buttonTa"
+                                        Content="Ta"
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="2"                      
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Height="18" Width="54" 
+                                        Grid.Row="2" 
+                                        Margin="0,31,0,0"/>
+                                <Button x:Name="buttonTo"
+                                        Content="To"
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="2"  
+                                        HorizontalAlignment="Left" 
+                                        VerticalAlignment="Top"
+                                        Height="18" Width="54" 
+                                        Grid.Row="2"
+                                        Margin="110,31,0,0"
+                                        Grid.ColumnSpan="2"/>
+                                <Button x:Name="buttonDerNew" 
+                                        Content="Der"
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="1"  
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        Height="18" Width="54" 
+                                        Grid.Row="4" 
+                                        Grid.ColumnSpan="2"
+                                        Margin="57,10,0,0"/>
+                                <Button x:Name="buttonDieNew" 
+                                        Content="Die"
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="2"  
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top"
+                                        Height="18" 
+                                        Width="54" 
+                                        Grid.Row="4"
+                                        Margin="0,10,0,0"/>
+                                <Button x:Name="buttonDasNew" 
+                                        Content="Das"
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="2"  
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        Height="18" 
+                                        Width="54" 
+                                        Grid.Row="4" 
+                                        Margin="110,10,0,0"
+                                        Grid.ColumnSpan="2"/>
+                                <Button x:Name="buttonTajNew"
+                                        Content="Taj"
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="1" 
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        Height="18"
+                                        Width="54" 
+                                        Grid.Row="5" 
+                                        Grid.ColumnSpan="2" 
+                                        Margin="58,0,0,0"/>
+                                <Button x:Name="buttonTaNew"
+                                        Content="Ta"
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="2" 
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Height="18" Width="54" 
+                                        Grid.Row="5"/>
+                                <Button x:Name="buttonToNew"
+                                        Content="To" 
+                                        Command="{Binding ShowArtikleFromButtonCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                        Grid.Column="2" 
+                                        HorizontalAlignment="Left" 
+                                        VerticalAlignment="Top"
+                                        Height="18" Width="54" 
+                                        Grid.Row="5" 
+                                        Margin="110,0,0,0" 
+                                        Grid.ColumnSpan="2"/>
                             </Grid>
                         </TabItem>
-
                         <TabItem Header="Aufgaben">
                             <Grid Background="#FFE5E5E5">
                                 <Grid.ColumnDefinitions>
@@ -379,33 +864,76 @@
                                     <RowDefinition Height="69*"/>
                                     <RowDefinition Height="23*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="6,23,0,0" TextWrapping="NoWrap" Text="Benutzer: " VerticalAlignment="Top" FontSize="22" FontWeight="Bold" TextDecorations="Underline" Height="29" Width="172"/>
-                                <ListBox Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=10}" Grid.ColumnSpan="3" Margin="16,0,97,35" Grid.RowSpan="4"/>
-                                <ListBox Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=10}" Grid.ColumnSpan="3" Margin="96,0,16,35" Grid.RowSpan="4" Grid.Column="2"/>
-                                <Button Grid.Column="1"
+                                <TextBlock Grid.Column="1"
+                                           Grid.ColumnSpan="2" 
+                                           HorizontalAlignment="Left"
+                                           Margin="6,23,0,0" 
+                                           TextWrapping="NoWrap" 
+                                           Text="Benutzer: " 
+                                           VerticalAlignment="Top" 
+                                           FontSize="22" 
+                                           FontWeight="Bold" 
+                                           TextDecorations="Underline" 
+                                           Height="29" 
+                                           Width="172"/>
+                                <ListBox Grid.Row="2" 
+                                         ItemsSource="{Binding ListOfWords}" 
+                                         DisplayMemberPath="Deutsch"
+                                         SelectedItem="{Binding SelectedAvailableWord}"
+                                         Grid.ColumnSpan="3" 
+                                         Margin="16,0,97,35" 
+                                         Grid.RowSpan="4"/>
+                                <ListBox Grid.Row="2"
+                                         ItemsSource="{Binding ListOfSelectedWords}"
+                                         DisplayMemberPath="Deutsch"
+                                         SelectedItem="{Binding SelectedAvailableWord}"
+                                         Grid.ColumnSpan="3" 
+                                         Margin="96,0,16,35"
+                                         Grid.RowSpan="4" 
+                                         Grid.Column="2"/>
+                                <Button Command="{Binding SendToUserCommand}"
+                                        Grid.Column="1"
                                         Grid.ColumnSpan="3"
-                                    Content="An Benutzer senden" 
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Height="28" Width="135" 
-                                    Margin="0,41,0,0" Grid.Row="5" 
-                                    Grid.RowSpan="2" FontWeight="Bold"/>
+                                        Content="An Benutzer senden" 
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Height="28"
+                                        Width="135" 
+                                        Margin="0,41,0,0"
+                                        Grid.Row="5" 
+                                        Grid.RowSpan="2" 
+                                        FontWeight="Bold"/>
                                 <Button Grid.Column="2"
-                                    Content="Hinzufügen" 
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Height="28" Width="77" 
-                                    Margin="0,30,0,0" Grid.Row="2" FontWeight="Bold"/>
+                                        Content="Hinzufügen" 
+                                        Command="{Binding MoveToSelectedCommand}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Height="28" 
+                                        Width="77" 
+                                        Margin="0,30,0,0" 
+                                        Grid.Row="2" 
+                                        FontWeight="Bold"/>
                                 <Button Grid.Column="2"
-                                    Content="Zurück" 
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Height="28" Width="76" 
-                                    Margin="0,31,0,0" Grid.Row="3" FontWeight="Bold"/>
-                                <ComboBox Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="26,30,0,0" VerticalAlignment="Top" Width="162"/>
+                                        Content="Zurück" 
+                                        Command="{Binding RemoveFromSelectedCommand}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Height="28" 
+                                        Width="76" 
+                                        Margin="0,31,0,0" 
+                                        Grid.Row="3" 
+                                        FontWeight="Bold"/>
+                                <ComboBox ItemsSource="{Binding ListOfUsers}" 
+                                          DisplayMemberPath="Username"
+                                          SelectedItem="{Binding SelectedUser}"
+                                          Grid.Column="2" 
+                                          Grid.ColumnSpan="2" 
+                                          HorizontalAlignment="Left" 
+                                          Margin="26,30,0,0" 
+                                          VerticalAlignment="Top" 
+                                          Width="162"/>
                             </Grid>
                         </TabItem>
-
                     </TabControl>
                 </Grid>
 

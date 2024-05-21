@@ -1,0 +1,48 @@
+USE [DS_WortschatzSQL]
+GO
+
+ALTER TABLE [dbo].[Worter] DROP CONSTRAINT [FK_Worter_ArtikelS]
+GO
+
+ALTER TABLE [dbo].[Worter] DROP CONSTRAINT [FK_Worter_ArtikelD]
+GO
+
+/****** Object:  Table [dbo].[Worter]    Script Date: 4/21/2024 2:45:48 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Worter]') AND type in (N'U'))
+DROP TABLE [dbo].[Worter]
+GO
+
+/****** Object:  Table [dbo].[Worter]    Script Date: 4/21/2024 2:45:48 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Worter](
+	[IDW] [int] IDENTITY(1,1) NOT NULL,
+	[DArtikelID] [int] NOT NULL,
+	[Deutsch] [nvarchar](50) NOT NULL,
+	[Serbisch] [nvarchar](50) NOT NULL,
+	[SArtikelID] [int] NOT NULL,
+ CONSTRAINT [PK_Worter] PRIMARY KEY CLUSTERED 
+(
+	[IDW] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Worter]  WITH CHECK ADD  CONSTRAINT [FK_Worter_ArtikelD] FOREIGN KEY([DArtikelID])
+REFERENCES [dbo].[ArtikelD] ([Id])
+GO
+
+ALTER TABLE [dbo].[Worter] CHECK CONSTRAINT [FK_Worter_ArtikelD]
+GO
+
+ALTER TABLE [dbo].[Worter]  WITH CHECK ADD  CONSTRAINT [FK_Worter_ArtikelS] FOREIGN KEY([SArtikelID])
+REFERENCES [dbo].[ArtikelS] ([IdS])
+GO
+
+ALTER TABLE [dbo].[Worter] CHECK CONSTRAINT [FK_Worter_ArtikelS]
+GO
+

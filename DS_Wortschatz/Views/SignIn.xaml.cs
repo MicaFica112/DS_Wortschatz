@@ -24,7 +24,6 @@ namespace DS_Wortschatz.Views
         public SignIn()
         {
             this.ResizeMode = ResizeMode.NoResize;
-
             InitializeComponent();
             siginViewModel = new SiginViewModel();
             this.DataContext = siginViewModel;

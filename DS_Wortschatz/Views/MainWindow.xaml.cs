@@ -21,25 +21,37 @@ namespace DS_Wortschatz
     /// </summary>
     public partial class MainWindow : Window
     {
-
        
+        private MainWindowViewModel _viewModel;
 
-
-        public MainWindow()
-        {
-            this.ResizeMode = ResizeMode.NoResize;
-          
+        //Konstractor
+        public MainWindow(MainWindowViewModel viewModel)
+        {      
             InitializeComponent();
-            this.Admin = new System.Windows.Forms.TabControl();
-
-
+            this.ResizeMode = ResizeMode.NoResize;
+            _viewModel = viewModel; 
+            this.DataContext = _viewModel;
+            _viewModel.AdminTab();
+            _viewModel.GetStats();
         }
-
-
-
-
-
-    }
-       
+        /// <summary>
+        /// Event handler for when the selection changes in any TabControl within this window.
+        /// </summary>
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Handles logic when the selected tab changes in a specific TabControl
+            if (sender is TabControl StatTab && StatTab.SelectedIndex == 2)
+            {
+                _viewModel.GetStats();
+            }
+            if (sender is TabControl derDieDasTab && derDieDasTab.SelectedIndex == 0)
+            {
+               _viewModel.ClearSearchFields();
+            }
+            if (sender is TabControl AdminTab && AdminTab.SelectedIndex == 4)
+            {
+               _viewModel.ClearSearchFields();
+            }
+        }
     }
 }

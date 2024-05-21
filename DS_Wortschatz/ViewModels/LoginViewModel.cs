@@ -4,6 +4,7 @@ using DS_Wortschatz.Models;
 using DS_Wortschatz.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,123 +15,124 @@ namespace DS_Wortschatz.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
-
+        // Properties bound to user input fields on the UI
         [ObservableProperty]
-        private string user = "";
+        private string user = string.Empty;
         [ObservableProperty]
-        private string password = "";
+        private string password = string.Empty;
 
-        private int UserId { get; set; }
-        private int IsAdmin { get; set; }
-
+        // Model to hold user data upon successful login
+        User userData = new User();
 
         private const MessageBoxImage exclamation = MessageBoxImage.Exclamation;
         private const MessageBoxButton ok = MessageBoxButton.OK;
-        private const string warning = "Warning!";
+        private const string warning = "Warnung!";
 
-
+        /// <summary>
+        /// Command executed when the login button is pressed.
+        /// </summary>
         [RelayCommand]
         private void LogInChk()
         {
             if (User.Equals(""))
             {
-                MessageBox.Show("Enter username ", warning, ok, exclamation);
+                MessageBox.Show("Geben Sie den Benutzernamen ein", warning, ok, exclamation);
             }
             else if (Password.Equals(""))
             {
-                MessageBox.Show("Enter Pass", warning, ok, exclamation);
+                MessageBox.Show("Geben Sie Pass ein", warning, ok, exclamation);
             }
 
             else
             {
-                string hash = "";
-                // Compute Hash
+                // Hash the password input using SHA256
+                string hash = string.Empty;
                 using (SHA256 sha256Hash = SHA256.Create())
                 {
                     hash = GetHash(sha256Hash, Password);
                 }
+                // Check the hashed password against the database
                 using (DS_WortschatzDBContext dbContext = new DS_WortschatzDBContext())
                 {
 
                     int number = dbContext.Accounts.Where(a => a.Username == User && a.Password == hash).Count();
                     if (number > 0)
                     {
-                        //?????????????????????????????????????????
-                        
-                        var getUserId = dbContext.Accounts.Where(x => x.Username == User).Select(x => x.Id).ToList();
-                        var getIsAdmin = dbContext.Accounts.Where(x => x.Username == User).Select(x => x.IsAdmin).ToList();
-
-                        if (getUserId != null && getIsAdmin != null)
+                        var getUserData = dbContext.Accounts.Where(a => a.Username == User).
+                                                             Select(x => new{x.Id,x.Username,
+                                                                             x.IsAdmin, x.Email}).ToList();
+                        if (getUserData != null)
                         {
-                            foreach (var id in getUserId)
+                            foreach (var item in getUserData)
                             {
-                                UserId = id;
-                            }
-                            foreach (var x in getIsAdmin)
-                            {
-                               IsAdmin = x;
+                                userData.Id = item.Id;
+                                userData.UserName = item.Username;
+                                userData.IsAdmin = item.IsAdmin;
+                                userData.Email = item.Email;
                             }
                         }
-                    
-                       LoginOK(UserId, IsAdmin);    
+                        LoginOK(userData);    
                     }
                     else
                     {
-                        MessageBox.Show("Wrong Username or Password", warning, ok, exclamation);
+                        MessageBox.Show("Benutzername oder Passwort falsch", warning, ok, exclamation);
                     }
                 }
             }
         }
-        static string GetHash(HashAlgorithm hashAlgorithm, string input)
+        /// <summary>
+        /// Helper method to hash strings using the specified hash algorithm.
+        /// </summary>
+        public static string GetHash(HashAlgorithm hashAlgorithm, string input)
         {
-
-            // Convert the input string to a byte array and compute the hash.
             byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
 
-            // Create a new Stringbuilder to collect the bytes
-            // and create a string.
             var sBuilder = new StringBuilder();
 
-            // Loop through each byte of the hashed data
-            // and format each one as a hexadecimal string.
             for (int i = 0; i < data.Length; i++)
             {
                 sBuilder.Append(data[i].ToString("x2"));
             }
-
-            // Return the hexadecimal string.
             return sBuilder.ToString();
         }
-
-        private static void LoginOK(int userId, int isAdmin)
+        private static void LoginOK(User user)
         {
-            MessageBox.Show($"Korisnik ID {userId} Korisnik je Admin {isAdmin}" , warning, ok, exclamation);
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
-            Application.Current.Windows[0].Close();
+            // Instantiate the view model and load user data
+            var mainWindowViewModel = new MainWindowViewModel();
+            mainWindowViewModel.GetUserData(user);
+
+            // Create the main window with the initialized view model
+            var mainWindow = new MainWindow(mainWindowViewModel);
+            //LogIn window chk
+            var loginWindow = Application.Current.Windows.OfType<LogIn>().FirstOrDefault();
+            // Close the current login window safely
+            if (loginWindow != null)
+            {
+                // Set the position of the MainWindow to the same as the LoginWindow
+               mainWindow.Left = loginWindow.Left;
+               mainWindow.Top = loginWindow.Top;
+               // Show the main window
+               mainWindow.Show();
+               loginWindow.Close();
+            }
         }
+
         [RelayCommand]
         private static void GoToSignin()
-        {
-            //ToDo
-            //Do a chk _isVisible and activ first
+        {   
+            var loginWindow = Application.Current.Windows.OfType<LogIn>().FirstOrDefault();
             var signinWindow = new SignIn();
-            signinWindow.Show();
-            Application.Current.Windows[0].Close();
+  
+            if (loginWindow != null)
+            {  
+                signinWindow.Left = loginWindow.Left; 
+                signinWindow.Top = loginWindow.Top;
+
+                signinWindow.Show();
+                loginWindow.Close();
+            }
+            
         }
-
-
-        // Verify a hash against a string.
-        /* static bool VerifyHash(HashAlgorithm hashAlgorithm, string input, string hash)
-         {
-             // Hash the input.
-             var hashOfInput = GetHash(hashAlgorithm, input);
-
-             // Create a StringComparer an compare the hashes.
-             StringComparer comparer = StringComparer.OrdinalIgnoreCase;
-
-             return comparer.Compare(hashOfInput, hash) == 0;
-         }*/
     }
 }
         
