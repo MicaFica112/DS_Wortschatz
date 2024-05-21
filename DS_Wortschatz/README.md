@@ -61,7 +61,7 @@ Ensure you have the following software installed:
 
      This project uses the following NuGet packages:
 
-    <ItemGroup>
+    
    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.15" />
    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14" />
@@ -69,7 +69,7 @@ Ensure you have the following software installed:
    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-    </ItemGroup>
+   
 
    These dependencies are automatically restored when you run `dotnet restore`.
 
